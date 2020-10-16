@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/usersFragment2"
+    tools:ignore="UnusedNavigation">
+    <fragment
+        android:id="@+id/usersFragment2"
+        android:name="com.example.pruebaandroid.userInterface.fragments.UsersFragment"
+        android:label="Usuarios"
+        tools:layout="@layout/fragment_users">
+        <action
+            android:id="@+id/action_usersFragment2_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.example.pruebaandroid.userInterface.fragments.UserDetailFragment"
+        android:label="Detalle de usuario"
+        tools:layout="@layout/fragment_user_detail">
+        <action
+            android:id="@+id/action_userDetailFragment_to_albumsFragment"
+            app:destination="@id/albumsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumsFragment"
+        android:name="com.example.pruebaandroid.userInterface.fragments.AlbumsFragment"
+        android:label="Albums"
+        tools:layout="@layout/fragment_albums" >
+        <action
+            android:id="@+id/action_albumsFragment_to_photosFragment"
+            app:destination="@id/photosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photosFragment"
+        android:name="com.example.pruebaandroid.userInterface.fragments.PhotosFragment"
+        android:label="Fotos"
+        tools:layout="@layout/fragment_photos" />
+</navigation>

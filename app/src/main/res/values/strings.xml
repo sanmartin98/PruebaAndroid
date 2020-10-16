@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PruebaAndroid</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--Title views-->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_user_name">Nombre: </string>
+    <string name="title_user_tel">Telefono: </string>
+    <string name="title_user_email">Correo: </string>
+    <string name="title_button_albums">Ver albums</string>
+    <string name="title_search_view">Buscar usuario</string>
+    <string name="title_tv_posts">Posts usuario</string>
+
+    <!--Send messages-->
+    <string name="send_message_user">usuario seleccionado</string>
+    <string name="send_message_user_id">id usuario</string>
+    <string name="send_message_album_id">id album</string>
+</resources>
