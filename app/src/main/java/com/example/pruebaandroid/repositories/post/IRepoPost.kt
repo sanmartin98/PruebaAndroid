@@ -5,6 +5,6 @@ import com.example.pruebaandroid.model.Post
 
 interface IRepoPost {
 
-    suspend fun getRepoByUserId(userId:Int):Resource<List<Post>>
+    suspend fun getPostByUserId(userId:Int):Resource<List<Post>>
 
 }

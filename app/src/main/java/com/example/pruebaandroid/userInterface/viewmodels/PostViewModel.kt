@@ -12,7 +12,7 @@ class PostViewModel(private val repoPostImpl: RepoPostImpl):ViewModel() {
     fun fetchPostUserList(userId: Int) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(repoPostImpl.getRepoByUserId(userId))
+            emit(repoPostImpl.getPostByUserId(userId))
         } catch (e:Exception){
             emit(Resource.Failure(e))
         }

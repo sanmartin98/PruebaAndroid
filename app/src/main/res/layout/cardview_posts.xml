@@ -36,7 +36,8 @@
                     android:textStyle="bold"
                     android:text="El post"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:ellipsize="end"
+                    android:textColor="@android:color/black"/>
     
                 <TextView
                     android:id="@+id/cv_tv_description_post"
