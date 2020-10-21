@@ -17,6 +17,8 @@ import com.example.pruebaandroid.model.User
 import com.example.pruebaandroid.repositories.post.RepoPostImpl
 import com.example.pruebaandroid.userInterface.adapters.PostAdapter
 import com.example.pruebaandroid.userInterface.viewmodels.PostViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
 class UserDetailFragment : Fragment() {
@@ -55,12 +57,32 @@ class UserDetailFragment : Fragment() {
         }
     }
 
-    fun setupView(){
+    private fun setupView(){
         tv_user_name.text = user.name
         tv_user_tel.text = user.tel
         tv_user_email.text = user.email
     }
 
+    private fun setupObservers(){
+        progress_bar_user_detail.visibility = View.VISIBLE
+
+        user.id?.let {
+            postViewModel.getPostByUserId(it).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { result ->
+                        progress_bar_user_detail.visibility = View.GONE
+                        recycler_posts_user.adapter = PostAdapter(requireContext(), result)
+                        recycler_posts_user.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+                    },{ error ->
+                        progress_bar_user_detail.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Error obteniendo los post del usuario", Toast.LENGTH_SHORT).show()
+                    }
+                )
+        }
+
+    }
+/*
     fun setupObservers(){
         user.id?.let {
             postViewModel.fetchPostUserList(it).observe(viewLifecycleOwner, Observer { result ->
@@ -81,4 +103,5 @@ class UserDetailFragment : Fragment() {
             })
         }
     }
+ */
 }

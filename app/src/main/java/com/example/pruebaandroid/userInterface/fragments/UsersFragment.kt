@@ -1,6 +1,8 @@
 package com.example.pruebaandroid.userInterface.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,9 @@ import com.example.pruebaandroid.dependenceinjection.DependencyInjectionUser
 import com.example.pruebaandroid.model.User
 import com.example.pruebaandroid.userInterface.adapters.UserAdapter
 import com.example.pruebaandroid.userInterface.viewmodels.UserViewModel
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_users.*
 
 class UsersFragment : Fragment(), UserAdapter.OnUserClickListener {
@@ -48,23 +53,22 @@ class UsersFragment : Fragment(), UserAdapter.OnUserClickListener {
         setupSearchView()
     }
 
+    @SuppressLint("CheckResult")
     fun setupObservers(){
-        userViewModel.fetchUserList.observe(viewLifecycleOwner, Observer { result ->
-            when(result){
-                is Resource.Loading -> {
-                    progress_bar.visibility = View.VISIBLE
-                }
-                is Resource.Success -> {
+        progress_bar.visibility = View.VISIBLE
+
+        userViewModel.getUsers().subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { result ->
                     progress_bar.visibility = View.GONE
-                    userAdapter = UserAdapter(requireContext(), result.data, this)
+                    userAdapter = UserAdapter(requireContext(), result, this)
                     rv_userList.adapter = userAdapter
-                }
-                is Resource.Failure -> {
+                }, {error ->
                     progress_bar.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Ocurrio un error obteniendo los datos ${result.exception}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),"error obteniendo la lista de usuarios", Toast.LENGTH_SHORT).show()
                 }
-            }
-        })
+            )
     }
 
     fun setupRecyclerView(){

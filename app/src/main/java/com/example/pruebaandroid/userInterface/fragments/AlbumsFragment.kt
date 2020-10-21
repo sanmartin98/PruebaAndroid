@@ -1,11 +1,13 @@
 package com.example.pruebaandroid.userInterface.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,8 @@ import com.example.pruebaandroid.model.Album
 import com.example.pruebaandroid.repositories.album.RepoAlbumImpl
 import com.example.pruebaandroid.userInterface.adapters.AlbumAdapter
 import com.example.pruebaandroid.userInterface.viewmodels.AlbumViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_albums.*
 import kotlin.properties.Delegates
 
@@ -25,7 +29,6 @@ class AlbumsFragment : Fragment(), AlbumAdapter.OnAlbumClickListener {
     private var userId: Int? = null
     private lateinit var albumViewModel: AlbumViewModel
     private var repoAlbum:RepoAlbumImpl = DependencyInjectionAlbum().getRepoAlbum()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +53,27 @@ class AlbumsFragment : Fragment(), AlbumAdapter.OnAlbumClickListener {
         setupObservers()
     }
 
+    private fun setupObservers(){
+        progress_bar_user_album.visibility = View.VISIBLE
+        Log.d("id user", "$userId")
+        userId.let {
+            //Toast.makeText(requireContext(), "$it", Toast.LENGTH_LONG).show()
+            albumViewModel.getAlbumByUserId(it!!).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { result ->
+                        progress_bar_user_album.visibility = View.GONE
+                        rv_albums.adapter = AlbumAdapter(requireContext(), result, this)
+                    },{ error ->
+                        Log.e("el error", "$error")
+                        progress_bar_user_album.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Error obteniendo los albums del usuario $error", Toast.LENGTH_SHORT).show()
+                    }
+                )
+        }
+    }
+
+    /*
     fun setupObservers() {
         userId.let {
             albumViewModel.fetchAlbumsUserList(it!!).observe(viewLifecycleOwner, Observer { result ->
@@ -70,6 +94,7 @@ class AlbumsFragment : Fragment(), AlbumAdapter.OnAlbumClickListener {
             })
         }
     }
+    */
 
     override fun onAlbumClick(album: Album) {
         val bundle = Bundle()

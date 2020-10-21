@@ -15,6 +15,8 @@ import com.example.pruebaandroid.dependenceinjection.DependenceInjectionPhoto
 import com.example.pruebaandroid.repositories.photo.RepoPhotoImpl
 import com.example.pruebaandroid.userInterface.adapters.PhotoAdapter
 import com.example.pruebaandroid.userInterface.viewmodels.PhotoViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_photos.*
 
 class PhotosFragment : Fragment() {
@@ -48,6 +50,25 @@ class PhotosFragment : Fragment() {
         setupObservers()
     }
 
+    private fun setupObservers(){
+        progress_bar_user_photo.visibility = View.VISIBLE
+
+        albumId?.let {
+            photoViewModel.getPhotosByAlbumId(it).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { result ->
+                        progress_bar_user_photo.visibility = View.GONE
+                        rv_photos.adapter = PhotoAdapter(requireContext(), result)
+                    }, { error ->
+                        progress_bar_user_photo.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Error obteniendo las fotos del album", Toast.LENGTH_SHORT).show()
+                    }
+                )
+        }
+    }
+
+    /*
     fun setupObservers(){
         albumId.let {
             photoViewModel.fetchPhotosUserList(it!!).observe(viewLifecycleOwner, Observer { result ->
@@ -67,5 +88,5 @@ class PhotosFragment : Fragment() {
             })
         }
     }
-
+    */
 }

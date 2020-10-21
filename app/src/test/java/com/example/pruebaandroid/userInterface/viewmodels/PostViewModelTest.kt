@@ -1,44 +1,36 @@
 package com.example.pruebaandroid.userInterface.viewmodels
 
-import com.example.pruebaandroid.accessdata.config.Resource
-import com.example.pruebaandroid.model.Post
-import com.example.pruebaandroid.model.User
 import com.example.pruebaandroid.repositories.post.RepoPostImpl
-import com.example.pruebaandroid.repositories.user.RepoUserImpl
-import com.example.pruebaandroid.userInterface.viewmodels.UserViewModel
-import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import io.reactivex.Observable
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
+import org.mockito.Mockito
 
 class PostViewModelTest {
-    @get:Rule
-    val exceptionRule = ExpectedException.none()
+    private val mockRepoPostImpl = Mockito.mock(RepoPostImpl::class.java)
+    private val viewModel = PostViewModel(mockRepoPostImpl)
 
     @Test
-    suspend fun test_getPosts(){
-        val userId = 1
-        val repo: RepoPostImpl = mock()
-        whenever(repo.getPostByUserId(userId))
-            .thenReturn(
-                Resource.Success(
-                    listOf(
-                        Post(userId, 1, "post", "body"),
-                        Post(userId, 2, "post", "body"),
-                        Post(userId, 3, "post", "body")
-                    )
-                )
-            )
-        val expected = 3
-        val model = PostViewModel(repo)
+    fun test_getPosts(){
+        val userId: Int = 1
+        viewModel.getPostByUserId(userId)
+        verify(mockRepoPostImpl).getPostByUserId(userId)
+    }
 
-        val users = model.fetchPostUserList(userId).value as List<User>
 
-        assertNotNull(users)
-        assertEquals(expected, 3)
+    @Test
+    fun test_getPostsEmpty() {
+        whenever(mockRepoPostImpl.getPostByUserId(0))
+            .thenReturn(Observable.just(listOf()))
+        val expected = 0
+
+        val posts = viewModel.getPostByUserId(0).blockingFirst()
+
+        assertNotNull(posts)
+        assertEquals(expected, posts.count())
     }
 }

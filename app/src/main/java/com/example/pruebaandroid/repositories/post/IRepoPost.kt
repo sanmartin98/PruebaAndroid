@@ -2,9 +2,10 @@ package com.example.pruebaandroid.repositories.post
 
 import com.example.pruebaandroid.accessdata.config.Resource
 import com.example.pruebaandroid.model.Post
+import io.reactivex.Observable
 
 interface IRepoPost {
 
-    suspend fun getPostByUserId(userId:Int):Resource<List<Post>>
+    fun getPostByUserId(userId:Int):Observable<List<Post>>
 
 }
