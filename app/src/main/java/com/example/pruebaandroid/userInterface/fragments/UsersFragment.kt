@@ -2,24 +2,20 @@ package com.example.pruebaandroid.userInterface.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pruebaandroid.R
-import com.example.pruebaandroid.accessdata.config.Resource
 import com.example.pruebaandroid.dependenceinjection.DependencyInjectionUser
 import com.example.pruebaandroid.model.User
 import com.example.pruebaandroid.userInterface.adapters.UserAdapter
 import com.example.pruebaandroid.userInterface.viewmodels.UserViewModel
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_users.*

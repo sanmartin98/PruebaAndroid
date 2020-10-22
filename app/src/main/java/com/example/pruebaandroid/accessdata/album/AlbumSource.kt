@@ -1,6 +1,5 @@
 package com.example.pruebaandroid.accessdata.album
 
-import com.example.pruebaandroid.accessdata.config.Resource
 import com.example.pruebaandroid.accessdata.config.RetrofitClient
 import com.example.pruebaandroid.model.Album
 import io.reactivex.Observable

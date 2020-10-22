@@ -1,6 +1,5 @@
 package com.example.pruebaandroid.accessdata.post
 
-import com.example.pruebaandroid.accessdata.config.Resource
 import com.example.pruebaandroid.accessdata.config.RetrofitClient
 import com.example.pruebaandroid.model.Post
 import io.reactivex.Observable

@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pruebaandroid.R
-import com.example.pruebaandroid.accessdata.config.Resource
 import com.example.pruebaandroid.dependenceinjection.DependenceInjectionPhoto
 import com.example.pruebaandroid.repositories.photo.RepoPhotoImpl
 import com.example.pruebaandroid.userInterface.adapters.PhotoAdapter
@@ -67,26 +65,4 @@ class PhotosFragment : Fragment() {
                 )
         }
     }
-
-    /*
-    fun setupObservers(){
-        albumId.let {
-            photoViewModel.fetchPhotosUserList(it!!).observe(viewLifecycleOwner, Observer { result ->
-                when(result){
-                    is Resource.Loading -> {
-                        progress_bar_user_photo.visibility = View.VISIBLE
-                    }
-                    is Resource.Success -> {
-                        progress_bar_user_photo.visibility = View.GONE
-                        rv_photos.adapter = PhotoAdapter(requireContext(), result.data)
-                    }
-                    is Resource.Failure -> {
-                        progress_bar_user_photo.visibility = View.GONE
-                        Toast.makeText(requireContext(), "Error obteniendo las fotos del album", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
-        }
-    }
-    */
 }

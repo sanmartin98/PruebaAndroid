@@ -7,13 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pruebaandroid.R
-import com.example.pruebaandroid.accessdata.config.Resource
 import com.example.pruebaandroid.dependenceinjection.DependencyInjectionAlbum
 import com.example.pruebaandroid.model.Album
 import com.example.pruebaandroid.repositories.album.RepoAlbumImpl
@@ -22,7 +18,6 @@ import com.example.pruebaandroid.userInterface.viewmodels.AlbumViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_albums.*
-import kotlin.properties.Delegates
 
 class AlbumsFragment : Fragment(), AlbumAdapter.OnAlbumClickListener {
 
@@ -72,29 +67,6 @@ class AlbumsFragment : Fragment(), AlbumAdapter.OnAlbumClickListener {
                 )
         }
     }
-
-    /*
-    fun setupObservers() {
-        userId.let {
-            albumViewModel.fetchAlbumsUserList(it!!).observe(viewLifecycleOwner, Observer { result ->
-                when(result){
-                    is Resource.Loading -> {
-                        progress_bar_user_album.visibility = View.VISIBLE
-                    }
-                    is Resource.Success -> {
-                        progress_bar_user_album.visibility = View.GONE
-                        rv_albums.adapter = AlbumAdapter(requireContext(), result.data, this)
-                    }
-                    is Resource.Failure -> {
-                        progress_bar_user_album.visibility = View.GONE
-                        Toast.makeText(requireContext(), "Error obteniendo los albums del usuario", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-            })
-        }
-    }
-    */
 
     override fun onAlbumClick(album: Album) {
         val bundle = Bundle()

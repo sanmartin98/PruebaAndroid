@@ -6,15 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pruebaandroid.R
-import com.example.pruebaandroid.accessdata.config.Resource
 import com.example.pruebaandroid.dependenceinjection.DependenceInjectionPost
 import com.example.pruebaandroid.model.User
-import com.example.pruebaandroid.repositories.post.RepoPostImpl
 import com.example.pruebaandroid.userInterface.adapters.PostAdapter
 import com.example.pruebaandroid.userInterface.viewmodels.PostViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -82,26 +79,4 @@ class UserDetailFragment : Fragment() {
         }
 
     }
-/*
-    fun setupObservers(){
-        user.id?.let {
-            postViewModel.fetchPostUserList(it).observe(viewLifecycleOwner, Observer { result ->
-                when(result){
-                    is Resource.Loading -> {
-                       progress_bar_user_detail.visibility = View.VISIBLE
-                    }
-                    is Resource.Success -> {
-                        progress_bar_user_detail.visibility = View.GONE
-                        recycler_posts_user.adapter = PostAdapter(requireContext(), result.data)
-                        recycler_posts_user.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                    }
-                    is Resource.Failure -> {
-                        progress_bar_user_detail.visibility = View.GONE
-                        Toast.makeText(requireContext(), "Error obteniendo los post del usuario", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
-        }
-    }
- */
 }
